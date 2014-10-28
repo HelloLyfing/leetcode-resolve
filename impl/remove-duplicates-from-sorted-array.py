@@ -27,7 +27,10 @@ class Solution:
                 return self.findInsertPos(needle, haystack, start + avrg + 1, end)
 
     def rmOne(self, B):
-        """Chose the first integer right after 'NULL', try to insert it before 'NULL'"""
+        """
+        valid_pt is pointting at the last valid item,
+        while feed_pt will traverse all items except the first one(B[1:])
+        """
         if len(B) >= self.feed_pt + 1:
             i = self.findInsertPos(B[self.feed_pt], B, 0, self.valid_pt)
             if i is not None:
@@ -35,17 +38,36 @@ class Solution:
                 self.valid_pt += 1
             self.feed_pt += 1
             return B
-        raise Exception('reverse done!')
+        raise Exception('traverse done!')
 
-    def removeDuplicates(self, A):
-        self.valid_pt = 0
-        self.feed_pt = 1
+    def removeDuplicatesUnsorted(self, A):
+        """use this method to remove duplicated item from unsorted array"""
         if len(A) < 2:
             return len(A)
         
+        self.valid_pt = 0
+        self.feed_pt = 1
         try:
             while 1: A = self.rmOne(A)
         except Exception:
             pass
 
         return self.valid_pt + 1
+
+    def removeDuplicates(self, A):
+        lenA = len(A)
+
+        if lenA < 2: return lenA
+
+        valid_pt = 0
+        feed_pt = 1
+        while (feed_pt + 1) <= lenA:
+            if A[valid_pt] == A[feed_pt]:
+                feed_pt += 1
+                continue
+
+            valid_pt += 1
+            A[valid_pt] = A[feed_pt]
+            feed_pt += 1
+
+        return valid_pt + 1
