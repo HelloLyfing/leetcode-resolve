@@ -39,7 +39,7 @@ def quick_sort_1_2(nums):
     recursive(nums, 0, len(nums) - 1)
     return nums
 
-def quick_sort_2(nums):
+def quick_sort_2_1(nums):
     def recursive(nums, start, end):
         if start >= end: return
 
@@ -66,6 +66,10 @@ def quick_sort_2(nums):
     recursive(nums, 0, len(nums) - 1)
     return nums
     
+def quick_sort_2_2(nums):
+    start = 0; end = len(nums) - 1
+    
+
 def popup_sort(nums):
     for i in xrange(len(nums)):
         for j in xrange(i, len(nums)):
@@ -88,4 +92,5 @@ if __name__ == '__main__':
     print_ret(nums, popup_sort)
     print_ret(nums, quick_sort_1_1)
     print_ret(nums, quick_sort_1_2)
-    print_ret(nums, quick_sort_2)
+    print_ret(nums, quick_sort_2_1)
+    print_ret(nums, quick_sort_2_2)
