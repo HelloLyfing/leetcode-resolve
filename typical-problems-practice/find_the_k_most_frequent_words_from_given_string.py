@@ -16,9 +16,9 @@ TrieNode: {'isEnd': false, 'count': null, 'heapIdx': null, 'children': null}
 
 import copy
 
-# 环形引用
+# these 2 nodes circulate each other
 minHeapNode = {'word': None, 'trieRef': None}
-trieNode = {'children': {}, 'count': 0, 'heapIdx': -1, 'isEnd': None}
+trieNode = {'count': 0, 'heapIdx': -1, 'isEnd': None, 'children': {}}
 
 def minHeapify(heap, idx):
     left = idx * 2 + 1
