@@ -36,7 +36,7 @@ def minHeapify(heap, idx):
         # update trie pointer to a heap item
         heap['arr'][min_idx]['trieRef']['heapIdx'] = idx
         heap['arr'][idx]['trieRef']['heapIdx'] = min_idx
-
+        
         tmp = heap['arr'][min_idx]
         heap['arr'][min_idx] = heap['arr'][idx]
         heap['arr'][idx] = tmp
@@ -60,7 +60,7 @@ def insertIntoHeap(heap, trie, word):
     elif heap['count'] < heap['size']:
         heap_count = heap['count']
         trie['heapIdx'] = heap_count
-        minNode = minHeapNode.copy()
+        minNode = copy.deepcopy(minHeapNode)
         minNode['word'] = word
         minNode['trieRef'] = trie
         heap['arr'][heap_count] = minNode
@@ -75,11 +75,11 @@ def insertIntoHeap(heap, trie, word):
         # 2. update heapIdx in trieNode which is going to be inserted
         trie['heapIdx'] = 0
         # 3. insert new minHeapNode
-        minNode = minHeapNode.copy()
+        minNode = copy.deepcopy(minHeapNode)
         minNode['word'] = word
         minNode['trieRef'] = trie
         heap['arr'][0] = minNode
-        buildHeap(heap)
+        minHeapify(heap, 0)
 
 def insertAWord(heap, trie, word):
     wordCode = wordToCode(word)
@@ -89,7 +89,7 @@ def insertAWord(heap, trie, word):
         if char not in trie:
             trie[char] = copy.deepcopy(trieNode)
         trie = trie[char]['children']
-
+    
     # last character
     char = wordCode[-1]
     if char not in trie:
@@ -110,23 +110,19 @@ def wordToCode(word):
     return word
 
 def printHeap(heap):
-    last = heap['count'] - 1
-    
-    for i in xrange(heap['count']):
-        val = heap['arr'][i]
-        #print '### %s %s (%s) ###' %(i, val['word'], val['trieRef']['count'])
-
-    for i in xrange(heap['count']):
+    size = heap['count']
+    for i in xrange(size):
+        backIdx = size - 1 - i
         tmp = heap['arr'][0]
-        heap['arr'][0] = heap['arr'][last - i]
-        heap['arr'][last - i] = tmp
+        heap['arr'][0] = heap['arr'][backIdx]
+        heap['arr'][backIdx] = tmp
 
         heap['count'] -= 1
         buildHeap(heap)
-
-    for i in xrange(last + 1):
+    
+    for i in xrange(size):
         item = heap['arr'][i]
-        print 'count: %s, word: %s' %(item['trieRef']['count'], item['word'])
+        print '(%s) - %s' %(item['trieRef']['count'], item['word'])
 
 if __name__ == '__main__':
     text = '''
@@ -138,7 +134,7 @@ if __name__ == '__main__':
     thousands of other Geeks
     '''
     
-    top_k = 13
+    top_k = 15
     trie = {}
     heap = {'count': 0, 'size': top_k, 'arr': [None for i in range(top_k)]}
     
