@@ -33,13 +33,13 @@ def minHeapify(heap, idx):
         min_idx = right
 
     if min_idx != idx:
-        tmp = heap['arr'][min_idx]
-        heap['arr'][min_idx] = heap['arr'][idx]
-        heap['arr'][idx] = tmp
-
         # update trie pointer to a heap item
         heap['arr'][min_idx]['trieRef']['heapIdx'] = idx
         heap['arr'][idx]['trieRef']['heapIdx'] = min_idx
+
+        tmp = heap['arr'][min_idx]
+        heap['arr'][min_idx] = heap['arr'][idx]
+        heap['arr'][idx] = tmp
 
         minHeapify(heap, min_idx)
 
@@ -70,8 +70,11 @@ def insertIntoHeap(heap, trie, word):
 
     # 3. word not exists, heap is full
     elif trie['count'] > heap['arr'][0]['trieRef']['count']:
-        # replace old node
+        # 1. update heapIdx in trieNode which is going to be removed
+        heap['arr'][0]['trieRef']['heapIdx'] = -1
+        # 2. update heapIdx in trieNode which is going to be inserted
         trie['heapIdx'] = 0
+        # 3. insert new minHeapNode
         minNode = minHeapNode.copy()
         minNode['word'] = word
         minNode['trieRef'] = trie
@@ -110,6 +113,10 @@ def printHeap(heap):
     last = heap['count'] - 1
     
     for i in xrange(heap['count']):
+        val = heap['arr'][i]
+        #print '### %s %s (%s) ###' %(i, val['word'], val['trieRef']['count'])
+
+    for i in xrange(heap['count']):
         tmp = heap['arr'][0]
         heap['arr'][0] = heap['arr'][last - i]
         heap['arr'][last - i] = tmp
@@ -131,7 +138,7 @@ if __name__ == '__main__':
     thousands of other Geeks
     '''
     
-    top_k = 11
+    top_k = 13
     trie = {}
     heap = {'count': 0, 'size': top_k, 'arr': [None for i in range(top_k)]}
     
