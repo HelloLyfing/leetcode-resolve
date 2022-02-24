@@ -26,7 +26,9 @@ public class FibonacciCollection {
 
     /**
      * 通过循环的方式计算斐波那切数列
-     * 核心概要: 1）根据公式定义3个变量，f(n) = f(n-1) + f(n-2), 2）n-1和n-2的值可以暂存起来为下一步所用
+     * 核心概要:
+     *     1）根据公式定义3个变量，f(n) = f(n-1) + f(n-2),
+     *     2）n-1和n-2的值可以暂存起来为下一步所用
      */
     public static int fibonacci_Loop(int input) {
         if (input == 0) {
