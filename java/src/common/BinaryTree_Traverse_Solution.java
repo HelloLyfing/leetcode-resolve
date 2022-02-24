@@ -48,6 +48,10 @@ public class BinaryTree_Traverse_Solution {
         return result;
     }
 
+    /**
+     * 前序遍历，根左右，
+     * 效果为：
+     */
     private static void preOrders_Recurse(ArrayList<Integer> arrList, TreeNode node) {
         arrList.add(node.val);
 
