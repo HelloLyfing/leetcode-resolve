@@ -62,6 +62,8 @@ public class SortingCollection {
     /**
      * 归并排序，时间复杂度：O(nlogn), 空间复杂度O(n)
      * 核心过程：脑子里记下归并排序的图
+     * 1）从中间开始拆分，通过递归的方式不断拆分；
+     * 2）左右拆分完成后，开始将两个有序的数组合并进Temp，最后再反哺至原数组；
      */
     static class MergeSortRecurse {
 
